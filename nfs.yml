@@ -1,0 +1,24 @@
+version: '3.2'
+
+services:
+  rsyslog:
+    image: jumanjiman/rsyslog
+    ports:
+      - '514:514'
+      - '514:514/udp'
+    volumes:
+      # The volume you have created in the 'volumes' section further below.
+      - nfs-mysql-vol:/var/lib/mysql
+      # OR
+      - type: volume
+        source: example
+        target: /nfs
+        volume:
+          nocopy: true
+volumes:
+  example:
+    driver: local # Must be set to avoid issues.
+    driver_opts:
+      type: 'nfs'
+      o: 'addr=10.40.0.199,nolock,soft,rw'
+      device: ':/docker/example'
