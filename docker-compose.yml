@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  alpine:
+    image: alpine
+    volumes:
+      - vol_collab:/mount
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: /bin/sh -c "while true; do echo 'OK'; sleep 2; done"
+
+volumes:
+  vol_collab:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.xx.xx
+      device: ':/data/nfs'
+# data:
+#   driver: local
+#   driver_opts:
+#     type: "nfs"
+#     o: addr=<nfs-Host-domain-name>,rw,sync,nfsvers=4.1
+#     device: ":<path to directory in nfs server>"
